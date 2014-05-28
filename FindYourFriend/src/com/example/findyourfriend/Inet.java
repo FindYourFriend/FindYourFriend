@@ -8,22 +8,22 @@ import org.apache.http.message.BasicNameValuePair;
 
 public class Inet {	
 	/**
-	 * Метод проверяет, является ли phonenumber другом friendphonenumber
-	 * @param phonenumber Наш номер
-	 * @param friendphonenumber Номер друга
-	 * @return True - если является
+	 * ���������� ������������������, ���������������� ���� phonenumber ������������ friendphonenumber
+	 * @param phonenumber ������ ����������
+	 * @param friendphonenumber ���������� ����������
+	 * @return True - �������� ����������������
 	 */
 	public boolean ifFriend(String phonenumber, String friendphonenumber) {
 		List<NameValuePair> NameValuePairs = new ArrayList<NameValuePair>();
 		NameValuePairs.add(new BasicNameValuePair("phonenumber", phonenumber));
 		NameValuePairs.add(new BasicNameValuePair("friendphonenumber", friendphonenumber));
-		String result = getData("http://w ww.findyourfriend.ho.ua/isfriend.php", NameValuePairs);
+		String result = getData("http://www.findyourfriend.ho.ua/isfriend.php", NameValuePairs);
 		return result.getBytes()[0] == '1' ? true : false;
 	}
 	
 	/**
-	 * Метод отправляет координаты на сервер
-	 * @param location Координаты
+	 * ���������� �������������������� �������������������� ���� ������������
+	 * @param location ��������������������
 	 * @return
 	 */
 	public boolean sendLocation(String location) {
@@ -34,9 +34,9 @@ public class Inet {
 	}
 	
 	/**
-	 * Метод проверяет, зарегистрирован ли номер в системе FindYourFriend
-	 * @param phonenumber Номер телефона
-	 * @return True - Если зарегистрирован
+	 * ���������� ������������������, ������������������������������ ���� ���������� �� �������������� FindYourFriend
+	 * @param phonenumber ���������� ����������������
+	 * @return True - �������� ������������������������������
 	 */
 	public boolean isRegisteredNumber(String phonenumber) {
 		List<NameValuePair> NameValuePairs = new ArrayList<NameValuePair>();
@@ -46,8 +46,8 @@ public class Inet {
 	}
 	
 	/**
-	 * Отправляет запрос на добавление друга, если запрос пришел "к нам", то этот метод
-	 * соглашается с запросом от друга
+	 * �������������������� ������������ ���� �������������������� ����������, �������� ������������ ������������ "�� ������", ���� �������� ����������
+	 * ���������������������� �� ���������������� ���� ����������
 	 * @param phonenumber
 	 * @param friendphonenumber
 	 */
@@ -59,9 +59,9 @@ public class Inet {
 	}
 	
 	/**
-	 * Метод возвращает список номеров от которых приходили уведомления, записанные через пробел
-	 * @param phonenumber Наш номер
-	 * @return Строка номеров
+	 * ���������� �������������������� ������������ �������������� ���� �������������� ������������������ ����������������������, �������������������� ���������� ������������
+	 * @param phonenumber ������ ����������
+	 * @return ������������ ��������������
 	 */
 	public String getListOfNotices(String phonenumber) {
 		List<NameValuePair> NameValuePairs = new ArrayList<NameValuePair>();
