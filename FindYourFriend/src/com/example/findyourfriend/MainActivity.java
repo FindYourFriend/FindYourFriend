@@ -11,12 +11,18 @@ import android.widget.Button;
 public class MainActivity extends Activity implements OnClickListener{
 
 	Button btnFriendsActivity;
+	Button btnFriends;
+	Button btnLocation;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		btnFriendsActivity=(Button)findViewById(R.id.btnFriendsActivity);
 		btnFriendsActivity.setOnClickListener(this);
+		btnFriends = (Button)findViewById(R.id.btnFriends);
+		btnFriends.setOnClickListener(this);
+		btnLocation = (Button)findViewById(R.id.btnLocation);
+		btnLocation.setOnClickListener(this);
 	}
 
 	@Override
@@ -32,6 +38,14 @@ public class MainActivity extends Activity implements OnClickListener{
 		switch(v.getId()){
 		case R.id.btnFriendsActivity:
 			intent=new Intent(this, ContactsActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.btnFriends:
+			intent = new Intent(this,FriendsActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.btnLocation:
+			intent = new Intent(this,LocationActivity.class);
 			startActivity(intent);
 			break;
 		default:

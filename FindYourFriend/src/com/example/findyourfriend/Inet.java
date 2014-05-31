@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 public class Inet {	
 	/**
+	 * 
 	 * ���������� ������������������, ���������������� ���� phonenumber ������������ friendphonenumber
 	 * @param phonenumber ������ ����������
 	 * @param friendphonenumber ���������� ����������
@@ -42,7 +43,8 @@ public class Inet {
 		List<NameValuePair> NameValuePairs = new ArrayList<NameValuePair>();
 		NameValuePairs.add(new BasicNameValuePair("phonenumber", phonenumber));
 		String result = getData("http://www.findyourfriend.ho.ua/phoneexist.php", NameValuePairs);
-		return result.getBytes()[0] == '1' ? true : false; 
+		return result.charAt(0) == '1' ? true : false;
+		//return result.getBytes()[0] == '1' ? true : false; 
 	}
 	
 	/**
@@ -92,8 +94,7 @@ public class Inet {
                 }
             } catch (InterruptedException e) {
             }
-        }
-        
+        }        
 		return thread.getText();
 	}
 }

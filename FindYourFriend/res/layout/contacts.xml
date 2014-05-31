@@ -9,14 +9,21 @@
         android:id="@+id/llNoFriends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/yourfriends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp"
             android:text="Your contacts" />
+        	 
+        <ListView 
+            android:id="@+id/listV_main"
+            android:layout_below="@id/yourfriends"
+	 		android:layout_height="wrap_content"
+	 		android:layout_width="fill_parent" />
     </LinearLayout>
 
 </LinearLayout>
