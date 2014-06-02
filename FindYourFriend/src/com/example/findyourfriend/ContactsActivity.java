@@ -21,6 +21,8 @@ import android.widget.ListView;
 
 public class ContactsActivity extends Activity implements OnClickListener{
 
+	
+	
 	ArrayList<String> phone_numbers = new ArrayList<String>();
 
 	ArrayList<ItemDetails> results = new ArrayList<ItemDetails>();
