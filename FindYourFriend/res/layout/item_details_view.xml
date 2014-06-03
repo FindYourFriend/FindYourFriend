@@ -30,14 +30,5 @@
         android:textSize="14sp"
         android:textStyle="bold" />
     
-    <ImageButton
-        android:contentDescription="app icon"
-        android:id="@+id/appIcon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:paddingRight="20dp"
-        android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>

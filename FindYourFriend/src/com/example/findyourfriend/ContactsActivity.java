@@ -15,8 +15,11 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Contacts;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class ContactsActivity extends Activity implements OnClickListener{
@@ -38,6 +41,17 @@ public class ContactsActivity extends Activity implements OnClickListener{
 
 		List_For_Store_Contact_Info.setAdapter(new ItemListBaseAdapter(this,
 				image_details));
+		List_For_Store_Contact_Info.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Object o = List_For_Store_Contact_Info.getItemAtPosition(position);
+				ItemDetails obj_itemDetails = (ItemDetails)o;
+				Log.d("my", "You have chosen : " + " " + obj_itemDetails.getName());				
+			}
+			
+		});
 	}
 
 	@SuppressWarnings("deprecation")
@@ -111,9 +125,7 @@ public class ContactsActivity extends Activity implements OnClickListener{
     
     @Override
     public void onClick(View v) {
-    	if(v.getId()==R.id.appIcon){
-    		
-    	}
+    	
     }
 	
 	

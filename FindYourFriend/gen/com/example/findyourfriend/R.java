@@ -228,12 +228,8 @@ containing a value of this type.
     }
     public static final class id {
         public static final int LinearLayout1=0x7f050013;
-        public static final int action_settings=0x7f050020;
-        public static final int appIcon=0x7f05001a;
-        public static final int btnFriends=0x7f05001e;
-        public static final int btnFriendsActivity=0x7f05001d;
-        public static final int btnLocation=0x7f05001f;
-        public static final int btnRoute=0x7f05001c;
+        public static final int action_settings=0x7f05001c;
+        public static final int btnRoute=0x7f05001b;
         public static final int header=0x7f05000e;
         public static final int header_vertical_divider_1=0x7f05000f;
         public static final int hybrid=0x7f050004;
@@ -241,7 +237,7 @@ containing a value of this type.
         public static final int listView1=0x7f050012;
         public static final int listepays=0x7f050011;
         public static final int llNoFriends=0x7f050014;
-        public static final int map=0x7f05001b;
+        public static final int map=0x7f05001a;
         public static final int menuPanel=0x7f050005;
         public static final int menuViewButton=0x7f050010;
         public static final int menu_item_1=0x7f050008;
