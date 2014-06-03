@@ -41,6 +41,7 @@ public class ItemListBaseAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
+
 		ViewHolder holder;
 		if (convertView == null) {
 			convertView = l_Inflater.inflate(R.layout.item_details_view, null);
@@ -49,6 +50,7 @@ public class ItemListBaseAdapter extends BaseAdapter {
 					.findViewById(R.id.name);
 			holder.txt_PhoneNumber = (TextView) convertView.findViewById(R.id.phone);
 			holder.contactPhoto = (ImageView) convertView.findViewById(R.id.photo);
+			holder.addFriendImageOrIcon = (ImageView) convertView.findViewById(R.id.appIcon);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -62,6 +64,10 @@ public class ItemListBaseAdapter extends BaseAdapter {
 			holder.contactPhoto.setImageBitmap(b);
 		} else
 			holder.contactPhoto.setImageResource(R.drawable.noimage);
+		if(itemDetailsArrayList.get(position).hasApp())
+				holder.addFriendImageOrIcon.setImageResource(R.drawable.blackplus);
+		else
+			holder.addFriendImageOrIcon.setImageResource(R.drawable.message);
 		return convertView;
 	}
 

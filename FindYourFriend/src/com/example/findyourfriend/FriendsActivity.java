@@ -17,6 +17,7 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.telephony.TelephonyManager;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class FriendsActivity extends Activity {
 
@@ -28,16 +29,18 @@ public class FriendsActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contacts);
-		
+
 		ArrayList<ItemDetails> image_details = GetSearchResults();
 
 		final ListView List_For_Store_Contact_Info = (ListView) findViewById(R.id.listV_main);
 
 		List_For_Store_Contact_Info.setAdapter(new ItemListBaseAdapter(this,
 				image_details));
+		TextView tv = (TextView) this.findViewById(R.id.yourfriends);
+		tv.setText("Your friends");
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "finally" })
 	private ArrayList<ItemDetails> GetSearchResults() {
 		ArrayList<ItemDetails> results = new ArrayList<ItemDetails>();
 
@@ -48,27 +51,37 @@ public class FriendsActivity extends Activity {
 		startManagingCursor(cursor);
 
 		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-		String line1Number = telephonyManager.getLine1Number();
+		String userPhone = telephonyManager.getLine1Number();
 
 		ItemDetails item_details;
-
-		if (cursor.getCount() > 0) {
-			while (cursor.moveToNext()) {
-				if (new Inet().ifFriend(line1Number, cursor.getString(2))) {
-					item_details = new ItemDetails();
-					item_details.setName(cursor.getString(0));
-					item_details.setPhoneNumber(cursor.getString(2));
-					item_details.setBitmap(getByteContactPhoto(cursor
-							.getString(1)));				
-					if (!phone_numbers.contains(cursor.getString(2))) {
-						results.add(item_details);
-						phone_numbers.add(cursor.getString(2));
+		try {
+			if (cursor.getCount() > 0) {
+				while (cursor.moveToNext()) {
+					if (new Inet().ifFriend(userPhone, cursor.getString(2))) {
+						String phone = editPhoneNumber(cursor.getString(2));
+						item_details = new ItemDetails();
+						item_details.setName(cursor.getString(0));
+						item_details.setPhoneNumber(phone);
+						item_details.setBitmap(getByteContactPhoto(cursor
+								.getString(1)));
+						if (!phone_numbers.contains(phone)) {
+							results.add(item_details);
+							phone_numbers.add(phone);
+						}
 					}
 				}
 			}
+		} catch (NullPointerException ex) {
+		} catch (RuntimeException ex) {
+		} finally {
+			Collections.sort(results, new CompName());
+			return results;
 		}
-		Collections.sort(results, new CompName());
-		return results;
+	}
+
+	private String editPhoneNumber(String number) {
+		int start = number.length() - 10;
+		return number.substring(start);
 	}
 
 	private Bitmap getByteContactPhoto(String contactId) {

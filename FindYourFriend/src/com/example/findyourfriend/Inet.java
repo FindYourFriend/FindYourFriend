@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.util.Log;
+
 public class Inet {	
 	/**
 	 * 
@@ -19,6 +21,7 @@ public class Inet {
 		NameValuePairs.add(new BasicNameValuePair("phonenumber", phonenumber));
 		NameValuePairs.add(new BasicNameValuePair("friendphonenumber", friendphonenumber));
 		String result = getData("http://www.findyourfriend.ho.ua/isfriend.php", NameValuePairs);
+		Log.i("my",result);
 		return result.getBytes()[0] == '1' ? true : false;
 	}
 	
