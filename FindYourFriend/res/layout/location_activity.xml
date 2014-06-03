@@ -1,6 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" 
+    android:layout_weight="1"
+    android:background="@drawable/blue_bg">
+
+    <!-- Menu Panel -->
+    <RelativeLayout
+           android:id="@+id/menuPanel"
+           android:layout_height="match_parent"
+           android:layout_width="wrap_content"
+           android:gravity="right"
+           android:background="@drawable/gray_bg" 
+           android:orientation="vertical" >
+       
+            <Button
+                android:id="@+id/menu_title_1"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="0dp" 
+                android:paddingLeft="15dp"             
+                android:gravity="center_vertical"
+                android:background="#353535"
+                android:textColor="@android:color/white"
+                android:text="@string/menu_title">     
+            </Button>
+            
+            <View
+		        android:id="@+id/menu_item_divider_1"
+		        android:layout_width="fill_parent"
+		        android:layout_height="0.5dp"
+		        android:layout_marginLeft="0dp"
+		        android:layout_marginRight="0dp"
+		        android:layout_below="@+id/menu_title_1"
+		        android:background="#b5b5b5"/>
+            
+            <Button
+                android:id="@+id/menu_item_1"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="15dp"             
+                android:gravity="center_vertical"
+                android:layout_below="@+id/menu_item_divider_1"
+                android:text="New friends">     
+            </Button>     
+             <View
+		        android:id="@+id/menu_item_divider_2"
+		        android:layout_width="fill_parent"
+		        android:layout_height="0.5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_marginRight="5dp"
+		        android:layout_below="@+id/menu_item_1"
+		        android:background="#b5b5b5"/> 
+            <Button
+                android:id="@+id/menu_item_2"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/menu_item_divider_2"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="Friends">
+            </Button>
+             <View
+		        android:id="@+id/menu_item_divider_3"
+		        android:layout_width="fill_parent"
+		        android:layout_height="0.5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_marginRight="5dp"
+		        android:layout_below="@+id/menu_item_2"
+		        android:background="#b5b5b5"/> 
+		        
+             <Button
+                android:id="@+id/menu_item_3"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/menu_item_divider_3"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="Location">
+                
+            </Button>
+            
+              <View
+		        android:id="@+id/menu_item_divider_4"
+		        android:layout_width="fill_parent"
+		        android:layout_height="0.5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_marginRight="5dp"
+		        android:layout_below="@+id/menu_item_3"
+		        android:background="#b5b5b5"/> 
+            <Button
+                android:id="@+id/menu_item_4"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/menu_item_divider_4"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="Message">
+            </Button>
+           
+		   
+            </RelativeLayout>
+            
+       <!-- Sliding Panel -->     
+		<LinearLayout
+                android:id="@+id/slidingPanel"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="left"
+                android:orientation="vertical"
+                android:background="@android:color/white" >
+       
+        		<RelativeLayout
+		            android:id="@+id/header"
+		            android:layout_width="match_parent"
+		            android:layout_height="50dp"
+		            android:background="@drawable/blue_bg" >
+   
+		          	<View
+		                android:id="@+id/header_vertical_divider_1"
+		                android:layout_width="2dp"
+		                android:layout_height="fill_parent"
+		                android:layout_alignParentTop="true"
+		                android:layout_marginLeft="15dp"
+		                android:layout_toRightOf="@+id/menuViewButton"
+		                android:background="@drawable/engraved_bg" />
+  
+			            <ImageView
+			                android:id="@+id/menuViewButton"
+			                android:layout_width="wrap_content"
+			                android:layout_height="wrap_content"
+			                android:layout_alignParentLeft="true"
+			                android:layout_centerVertical="true"
+			                android:layout_marginLeft="15dp"
+			                android:clickable="true"
+			                android:contentDescription="@string/description"
+			                android:src="@drawable/icon_menu"
+			                android:visibility="visible" />
+			      
+  				</RelativeLayout>
+  				
+        		<LinearLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -19,3 +161,56 @@
         android:text="@string/route" />
 
 </LinearLayout>
+  				
+        		<LinearLayout
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/llNoFriends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/yourfriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:text="Your contacts" />
+        	 
+        <ListView 
+            android:id="@+id/listV_main"
+            android:layout_below="@id/yourfriends"
+	 		android:layout_height="wrap_content"
+	 		android:layout_width="fill_parent" />
+    </LinearLayout>
+
+</LinearLayout>
+ 				 
+      
+ 
+        		<ListView
+        		    android:id="@+id/listView1"
+        		    android:layout_width="match_parent"
+        		    android:layout_height="319dp" >
+
+        		</ListView>
+
+     
+		        
+
+		</LinearLayout>
+		
+		
+</FrameLayout>
+
+
+
+
+
+
+

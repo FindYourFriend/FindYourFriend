@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent" 
     android:layout_weight="1"
@@ -81,6 +82,24 @@
                 android:text="Location">
                 
             </Button>
+            
+              <View
+		        android:id="@+id/menu_item_divider_4"
+		        android:layout_width="fill_parent"
+		        android:layout_height="0.5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_marginRight="5dp"
+		        android:layout_below="@+id/menu_item_3"
+		        android:background="#b5b5b5"/> 
+            <Button
+                android:id="@+id/menu_item_4"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/menu_item_divider_4"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="Message">
+            </Button>
            
 		   
             </RelativeLayout>
@@ -122,17 +141,60 @@
 			                android:visibility="visible" />
 			      
   				</RelativeLayout>
-  				  <TextView
-                android:id="@+id/listepays"
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/menu_item_divider_2"
-                android:layout_marginLeft="15dp"
-                android:gravity="center_vertical" 
-                 android:textColorHighlight="#550022"  
-                android:editable = "true">
+  				
+        		<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+ <TextView
+     android:id="@+id/tvLoc"
+     android:layout_width="match_parent"
+     android:layout_height="31dp"
+     android:layout_marginTop="20dp"
+     android:gravity="center_horizontal"
+     android:text="Сейчас Вы находитесь здесь" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="401dp" />
+
+   
+
+</LinearLayout>
+  				
+        		<LinearLayout
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/llNoFriends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/yourfriends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:text="Your contacts" />
+        	 
+        <ListView 
+            android:id="@+id/listV_main"
+            android:layout_below="@id/yourfriends"
+	 		android:layout_height="wrap_content"
+	 		android:layout_width="fill_parent" />
+    </LinearLayout>
+
+</LinearLayout>
  				 
-            </TextView>
+      
  
         		<ListView
         		    android:id="@+id/listView1"
@@ -145,4 +207,20 @@
 		        
 
 		</LinearLayout>
+		
+		
 </FrameLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

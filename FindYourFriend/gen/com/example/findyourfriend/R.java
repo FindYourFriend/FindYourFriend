@@ -229,34 +229,39 @@ containing a value of this type.
     }
     public static final class id {
         public static final int LinearLayout1=0x7f050013;
-        public static final int action_settings=0x7f05001d;
-        public static final int appIcon=0x7f05001a;
-        public static final int btnRoute=0x7f05001c;
-        public static final int header=0x7f05000e;
-        public static final int header_vertical_divider_1=0x7f05000f;
+        public static final int action_settings=0x7f050022;
+        public static final int appIcon=0x7f05001b;
+        public static final int btnFriends=0x7f05001f;
+        public static final int btnFriendsActivity=0x7f05001e;
+        public static final int btnLocation=0x7f050020;
+        public static final int btnRoute=0x7f05001d;
+        public static final int header=0x7f050010;
+        public static final int header_vertical_divider_1=0x7f050011;
         public static final int hybrid=0x7f050004;
         public static final int listV_main=0x7f050016;
-        public static final int listView1=0x7f050012;
-        public static final int listepays=0x7f050011;
+        public static final int listView1=0x7f050017;
         public static final int llNoFriends=0x7f050014;
-        public static final int map=0x7f05001b;
+        public static final int map=0x7f05001c;
         public static final int menuPanel=0x7f050005;
-        public static final int menuViewButton=0x7f050010;
+        public static final int menuViewButton=0x7f050012;
         public static final int menu_item_1=0x7f050008;
         public static final int menu_item_2=0x7f05000a;
         public static final int menu_item_3=0x7f05000c;
+        public static final int menu_item_4=0x7f05000e;
         public static final int menu_item_divider_1=0x7f050007;
         public static final int menu_item_divider_2=0x7f050009;
         public static final int menu_item_divider_3=0x7f05000b;
+        public static final int menu_item_divider_4=0x7f05000d;
         public static final int menu_title_1=0x7f050006;
-        public static final int name=0x7f050018;
+        public static final int name=0x7f050019;
         public static final int none=0x7f050000;
         public static final int normal=0x7f050001;
-        public static final int phone=0x7f050019;
-        public static final int photo=0x7f050017;
+        public static final int phone=0x7f05001a;
+        public static final int photo=0x7f050018;
         public static final int satellite=0x7f050002;
-        public static final int slidingPanel=0x7f05000d;
+        public static final int slidingPanel=0x7f05000f;
         public static final int terrain=0x7f050003;
+        public static final int tvLoc=0x7f050021;
         public static final int yourfriends=0x7f050015;
     }
     public static final class integer {

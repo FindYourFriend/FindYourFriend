@@ -26,10 +26,14 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 
 
+
+
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -40,15 +44,53 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class LocationActivity extends FragmentActivity implements
+
+
+public class LocationActivity extends FragmentActivity implements OnClickListener,
 		GooglePlayServicesClient.ConnectionCallbacks,
 		GooglePlayServicesClient.OnConnectionFailedListener,
-		com.google.android.gms.location.LocationListener {
+		com.google.android.gms.location.LocationListener{
 
+	private LinearLayout slidingPanel;
+	private boolean isExpanded;
+	private DisplayMetrics metrics;	
+	private ListView listView;
+	private RelativeLayout headerPanel;
+	private RelativeLayout menuPanel;
+	private int panelWidth;
+	private ImageView menuViewButton;
+	Button menu1 ;
+	Button menu2 ;
+	Button menu3;
+	TextView txtpays;
+	
+	FrameLayout.LayoutParams menuPanelParameters;
+	FrameLayout.LayoutParams slidingPanelParameters;
+	LinearLayout.LayoutParams headerPanelParameters ;
+	LinearLayout.LayoutParams listViewParameters;
+	
+	ArrayList<String> phone_numbers = new ArrayList<String>();
+
+	ArrayList<ItemDetails> results = new ArrayList<ItemDetails>();
+	
+	
+	
+	
 	private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 	// Milliseconds per second
 	private static final int MILLISECONDS_PER_SECOND = 1000;
@@ -98,6 +140,69 @@ public class LocationActivity extends FragmentActivity implements
 		mEditor = mPrefs.edit();
 		// Start with updates turned off
 		mUpdatesRequested = false;
+		
+		
+		//Initialize
+				metrics = new DisplayMetrics();
+				getWindowManager().getDefaultDisplay().getMetrics(metrics);
+				panelWidth = (int) ((metrics.widthPixels)*0.75);
+			
+				headerPanel = (RelativeLayout) findViewById(R.id.header);
+				headerPanelParameters = (LinearLayout.LayoutParams) headerPanel.getLayoutParams();
+				headerPanelParameters.width = metrics.widthPixels;
+				headerPanel.setLayoutParams(headerPanelParameters);
+				
+				menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
+				menuPanelParameters = (FrameLayout.LayoutParams) menuPanel.getLayoutParams();
+				menuPanelParameters.width = panelWidth;
+				menuPanel.setLayoutParams(menuPanelParameters);
+				
+				slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
+				slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
+				slidingPanelParameters.width = metrics.widthPixels;
+				slidingPanel.setLayoutParams(slidingPanelParameters);
+				
+				listView = (ListView) findViewById(R.id.listView1);
+				listViewParameters = (LinearLayout.LayoutParams) listView.getLayoutParams();
+				listViewParameters.width = metrics.widthPixels;
+				listView.setLayoutParams(listViewParameters);
+				
+			
+			
+				//Slide the Panel	
+			 
+			
+			 	menu1 = (Button) findViewById(R.id.menu_item_1);	
+			
+			 	menu2 = (Button) findViewById(R.id.menu_item_2);
+			 	menu1.setOnClickListener(this);
+			 	menu2.setOnClickListener(this);
+			 	menu3=(Button)findViewById(R.id.menu_item_3);
+			 	menu3.setOnClickListener(this);
+			 	
+		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
+				
+				menuViewButton.setOnClickListener(new OnClickListener() {
+				    public void onClick(View v) {
+				    	if(!isExpanded){
+				    		isExpanded = true;   		    				        		
+				        	
+				    		//Expand
+				    		new ExpandAnimation(slidingPanel, panelWidth,
+				    	    Animation.RELATIVE_TO_SELF, 0.0f,
+				    	    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);		    			         	    
+				    	}else{
+				    		isExpanded = false;
+				    		
+				    		//Collapse
+				    		new CollapseAnimation(slidingPanel,panelWidth,
+		            	    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
+		            	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
+				   
+							
+				    	}         	   
+				    }
+				});
 
 	}
 
@@ -424,6 +529,28 @@ public class LocationActivity extends FragmentActivity implements
 				drawPath(result);
 			}
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intent;
+		switch(v.getId()){
+		case R.id.menu_item_1:
+			intent=new Intent(this, ContactsActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_item_2:
+			intent = new Intent(this,FriendsActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_item_3:
+			intent = new Intent(this,LocationActivity.class);
+			startActivity(intent);
+			break;
+		default:
+			break;
+		}
+		
 	}
 }
 

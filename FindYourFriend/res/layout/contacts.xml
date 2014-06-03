@@ -82,6 +82,24 @@
                 android:text="Location">
                 
             </Button>
+            
+             <View
+		        android:id="@+id/menu_item_divider_4"
+		        android:layout_width="fill_parent"
+		        android:layout_height="0.5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_marginRight="5dp"
+		        android:layout_below="@+id/menu_item_3"
+		        android:background="#b5b5b5"/> 
+            <Button
+                android:id="@+id/menu_item_4"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/menu_item_divider_4"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="Message">
+            </Button>
            
 		   
             </RelativeLayout>
@@ -123,31 +141,8 @@
 			                android:visibility="visible" />
 			      
   				</RelativeLayout>
-  				  <TextView
-                android:id="@+id/listepays"
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/menu_item_divider_2"
-                android:layout_marginLeft="15dp"
-                android:gravity="center_vertical" 
-                 android:textColorHighlight="#550022"  
-                android:editable = "true">
- 				 
-            </TextView>
- 
-        		<ListView
-        		    android:id="@+id/listView1"
-        		    android:layout_width="match_parent"
-        		    android:layout_height="319dp" >
-
-        		</ListView>
-
-     
-		        
-
-		</LinearLayout>
-		
-		<LinearLayout
+  				
+        		<LinearLayout
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -175,6 +170,22 @@
     </LinearLayout>
 
 </LinearLayout>
+ 				 
+      
+ 
+        		<ListView
+        		    android:id="@+id/listView1"
+        		    android:layout_width="match_parent"
+        		    android:layout_height="319dp" >
+
+        		</ListView>
+
+     
+		        
+
+		</LinearLayout>
+		
+		
 </FrameLayout>
 
 
