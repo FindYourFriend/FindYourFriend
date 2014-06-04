@@ -98,7 +98,7 @@
                 android:layout_below="@+id/menu_item_divider_4"
                 android:layout_marginLeft="15dp"
                 android:gravity="center_vertical"
-                android:text="Message">
+                android:text="Notifications">
             </Button>
            
 		   
@@ -159,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:text="Your contacts" />
         	 
         <ListView 

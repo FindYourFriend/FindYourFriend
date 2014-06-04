@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -39,6 +40,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,39 +56,36 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-
 public class MainActivity extends FragmentActivity implements OnClickListener,
 		GooglePlayServicesClient.ConnectionCallbacks,
 		GooglePlayServicesClient.OnConnectionFailedListener,
-		com.google.android.gms.location.LocationListener{
+		com.google.android.gms.location.LocationListener {
 
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
-	private DisplayMetrics metrics;	
+	private DisplayMetrics metrics;
 	private ListView listView;
 	private RelativeLayout headerPanel;
 	private RelativeLayout menuPanel;
 	private int panelWidth;
 	private ImageView menuViewButton;
-	Button menu1 ;
-	Button menu2 ;
+	Button menu1;
+	Button menu2;
 	Button menu3;
+	Button menu4;
 	TextView txtpays;
-	String[] listeStrings = {"Tunisie","Libye","Egypte","Yemen","Syrie"};
-	String[] listeStrings2 = {"Mauritanie","Maroc","Algerie","Arabie saoudite","jordanie","Pays du golf"};
+	String[] listeStrings = { "Tunisie", "Libye", "Egypte", "Yemen", "Syrie" };
+	String[] listeStrings2 = { "Mauritanie", "Maroc", "Algerie",
+			"Arabie saoudite", "jordanie", "Pays du golf" };
 	FrameLayout.LayoutParams menuPanelParameters;
 	FrameLayout.LayoutParams slidingPanelParameters;
-	LinearLayout.LayoutParams headerPanelParameters ;
+	LinearLayout.LayoutParams headerPanelParameters;
 	LinearLayout.LayoutParams listViewParameters;
-	
+
 	ArrayList<String> phone_numbers = new ArrayList<String>();
 
 	ArrayList<ItemDetails> results = new ArrayList<ItemDetails>();
-	
-	
-	
-	
+
 	private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 	// Milliseconds per second
 	private static final int MILLISECONDS_PER_SECOND = 1000;
@@ -136,70 +135,77 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 		mEditor = mPrefs.edit();
 		// Start with updates turned off
 		mUpdatesRequested = false;
-		
-		
-		//Initialize
-				metrics = new DisplayMetrics();
-				getWindowManager().getDefaultDisplay().getMetrics(metrics);
-				panelWidth = (int) ((metrics.widthPixels)*0.75);
-			
-				headerPanel = (RelativeLayout) findViewById(R.id.header);
-				headerPanelParameters = (LinearLayout.LayoutParams) headerPanel.getLayoutParams();
-				headerPanelParameters.width = metrics.widthPixels;
-				headerPanel.setLayoutParams(headerPanelParameters);
-				
-				menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
-				menuPanelParameters = (FrameLayout.LayoutParams) menuPanel.getLayoutParams();
-				menuPanelParameters.width = panelWidth;
-				menuPanel.setLayoutParams(menuPanelParameters);
-				
-				slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
-				slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
-				slidingPanelParameters.width = metrics.widthPixels;
-				slidingPanel.setLayoutParams(slidingPanelParameters);
-				
-				listView = (ListView) findViewById(R.id.listView1);
-				listViewParameters = (LinearLayout.LayoutParams) listView.getLayoutParams();
-				listViewParameters.width = metrics.widthPixels;
-				listView.setLayoutParams(listViewParameters);
-				
-			
-			
-				//Slide the Panel	
-			 
-			
-			 	menu1 = (Button) findViewById(R.id.menu_item_1);	
-			
-			 	menu2 = (Button) findViewById(R.id.menu_item_2);
-			 	menu1.setOnClickListener(this);
-			 	menu2.setOnClickListener(this);
-			 	menu3=(Button)findViewById(R.id.menu_item_3);
-			 	menu3.setOnClickListener(this);
-			 	
-		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
-				
-				menuViewButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View v) {
-				    	if(!isExpanded){
-				    		isExpanded = true;   		    				        		
-				        	
-				    		//Expand
-				    		new ExpandAnimation(slidingPanel, panelWidth,
-				    	    Animation.RELATIVE_TO_SELF, 0.0f,
-				    	    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);		    			         	    
-				    	}else{
-				    		isExpanded = false;
-				    		
-				    		//Collapse
-				    		new CollapseAnimation(slidingPanel,panelWidth,
-		            	    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
-		            	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
-				   
-							
-				    	}         	   
-				    }
-				});
 
+		// Initialize
+		metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		panelWidth = (int) ((metrics.widthPixels) * 0.75);
+
+		headerPanel = (RelativeLayout) findViewById(R.id.header);
+		headerPanelParameters = (LinearLayout.LayoutParams) headerPanel
+				.getLayoutParams();
+		headerPanelParameters.width = metrics.widthPixels;
+		headerPanel.setLayoutParams(headerPanelParameters);
+
+		menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
+		menuPanelParameters = (FrameLayout.LayoutParams) menuPanel
+				.getLayoutParams();
+		menuPanelParameters.width = panelWidth;
+		menuPanel.setLayoutParams(menuPanelParameters);
+
+		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
+		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel
+				.getLayoutParams();
+		slidingPanelParameters.width = metrics.widthPixels;
+		slidingPanel.setLayoutParams(slidingPanelParameters);
+
+		listView = (ListView) findViewById(R.id.listView1);
+		listViewParameters = (LinearLayout.LayoutParams) listView
+				.getLayoutParams();
+		listViewParameters.width = metrics.widthPixels;
+		listView.setLayoutParams(listViewParameters);
+
+		// Slide the Panel
+
+		menu1 = (Button) findViewById(R.id.menu_item_1);
+
+		menu2 = (Button) findViewById(R.id.menu_item_2);
+		menu1.setOnClickListener(this);
+		menu2.setOnClickListener(this);
+		menu3 = (Button) findViewById(R.id.menu_item_3);
+		menu3.setOnClickListener(this);
+		menu4 = (Button) findViewById(R.id.menu_item_4);
+		menu4.setOnClickListener(this);
+		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
+
+		menuViewButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if (!isExpanded) {
+					isExpanded = true;
+
+					// Expand
+					new ExpandAnimation(slidingPanel, panelWidth,
+							Animation.RELATIVE_TO_SELF, 0.0f,
+							Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
+				} else {
+					isExpanded = false;
+
+					// Collapse
+					new CollapseAnimation(slidingPanel, panelWidth,
+							TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
+							TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f,
+							0, 0.0f);
+
+				}
+			}
+		});
+
+		Inet inet = new Inet();
+		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+		String userPhone = telephonyManager.getLine1Number();
+		if (inet.getListOfNotices(userPhone) != null)
+			Toast.makeText(this, "You have new notifications, check them", 5000)
+					.show();
 	}
 
 	/*
@@ -238,20 +244,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 		// Report to the UI that the location was updated
 
 		mCurrentLocation = location;
-		String msg = "Updated Location: "
-				+ Double.toString(location.getLatitude()) + ","
-				+ Double.toString(location.getLongitude());
-		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+
 		if (marker != null)
 			marker.remove();
-//		Bitmap bmp = BitmapFactory.decodeResource(getResources(),
-//				R.drawable.ic_launcher);
-//		marker = mMap.addMarker(new MarkerOptions()
-//				.position(
-//						new LatLng(mCurrentLocation.getLatitude(),
-//								mCurrentLocation.getLongitude()))
-//				.title("Julia Vovk").snippet("I'm here")
-//				.icon(BitmapDescriptorFactory.fromBitmap(bmp)));
+		// Bitmap bmp = BitmapFactory.decodeResource(getResources(),
+		// R.drawable.ic_launcher);
+		// marker = mMap.addMarker(new MarkerOptions()
+		// .position(
+		// new LatLng(mCurrentLocation.getLatitude(),
+		// mCurrentLocation.getLongitude()))
+		// .title("Julia Vovk").snippet("I'm here")
+		// .icon(BitmapDescriptorFactory.fromBitmap(bmp)));
 		mMap.setMyLocationEnabled(true);
 	}
 
@@ -273,11 +276,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 				new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation
 						.getLongitude()), 17));
 		mMap.setMyLocationEnabled(true);
-//		marker = mMap.addMarker(new MarkerOptions()
-//				.position(
-//						new LatLng(mCurrentLocation.getLatitude(),
-//								mCurrentLocation.getLongitude()))
-//				.title("Julia Vovk").snippet("I'm here"));
+		// marker = mMap.addMarker(new MarkerOptions()
+		// .position(
+		// new LatLng(mCurrentLocation.getLatitude(),
+		// mCurrentLocation.getLongitude()))
+		// .title("Julia Vovk").snippet("I'm here"));
 		// mMap.addMarker(new MarkerOptions()
 		// .position(
 		// new LatLng(50.02,
@@ -288,23 +291,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 
 			@Override
 			public void onMapClick(LatLng point) {
-				// TODO Auto-generated method stub
-				// lstLatLngs.add(point);
 
-				destinationMarker = mMap.addMarker(new MarkerOptions()
-						.position(point));
-				// onClickRoute(point);
+				// destinationMarker = mMap.addMarker(new MarkerOptions()
+				// .position(point));
 
-				// String url = makeURL(mCurrentLocation.getLatitude(),
-				// mCurrentLocation.getLongitude(),
-				// point.latitude, point.longitude);
-				// connectAsyncTask cat = new connectAsyncTask(url);
-				// cat.execute();
 			}
 		});
 
 	}
-
 
 	protected void onPause() {
 		// Save the current setting for updates
@@ -391,8 +385,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 		return urlString.toString();
 	}
 
-	
-
 	private List<LatLng> decodePoly(String encoded) {
 
 		List<LatLng> poly = new ArrayList<LatLng>();
@@ -452,29 +444,31 @@ public class MainActivity extends FragmentActivity implements OnClickListener,
 			return json;
 		}
 
-		
 	}
 
 	@Override
 	public void onClick(View v) {
 		Intent intent;
-		switch(v.getId()){
+		switch (v.getId()) {
 		case R.id.menu_item_1:
-			intent=new Intent(this, ContactsActivity.class);
+			intent = new Intent(this, ContactsActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.menu_item_2:
-			intent = new Intent(this,FriendsActivity.class);
+			intent = new Intent(this, FriendsActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.menu_item_3:
-			intent = new Intent(this,LocationActivity.class);
+			intent = new Intent(this, LocationActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_item_4:
+			intent = new Intent(this, NotificationsActivity.class);
 			startActivity(intent);
 			break;
 		default:
 			break;
 		}
-		
+
 	}
 }
-

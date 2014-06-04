@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import com.example.findyourfriend.FriendsActivity.CompName;
+import com.google.android.gms.common.GooglePlayServicesClient;
+
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,18 +17,16 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Contacts;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.support.v4.app.FragmentActivity;
 import android.telephony.TelephonyManager;
-import android.telephony.gsm.SmsManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -34,9 +34,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class ContactsActivity extends Activity implements OnClickListener {
+public class NotificationsActivity extends Activity implements OnClickListener {
 
+	ArrayList<String> phone_numbers = new ArrayList<String>();
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
 	private DisplayMetrics metrics;
@@ -58,12 +60,8 @@ public class ContactsActivity extends Activity implements OnClickListener {
 	LinearLayout.LayoutParams headerPanelParameters;
 	LinearLayout.LayoutParams listViewParameters;
 
-	ArrayList<String> phone_numbers = new ArrayList<String>();
-
-	ArrayList<ItemDetails> results = new ArrayList<ItemDetails>();
-
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contacts);
 
@@ -73,23 +71,9 @@ public class ContactsActivity extends Activity implements OnClickListener {
 
 		List_For_Store_Contact_Info.setAdapter(new ItemListBaseAdapter(this,
 				image_details));
-		List_For_Store_Contact_Info
-				.setOnItemClickListener(new OnItemClickListener() {
 
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view,
-							int position, long id) {
-						Object o = List_For_Store_Contact_Info
-								.getItemAtPosition(position);
-						ItemDetails obj_itemDetails = (ItemDetails) o;
-						Log.d("my", "You have chosen : " + " "
-								+ obj_itemDetails.getName());
-						if (!obj_itemDetails.hasApp())
-							sendSMS(obj_itemDetails.getPhoneNumber(),
-									"Hi! Install this cool app to spy on me ;)");
-					}
-
-				});
+		TextView tv = (TextView) this.findViewById(R.id.yourfriends);
+		tv.setText("Your notifications");
 
 		metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -154,6 +138,7 @@ public class ContactsActivity extends Activity implements OnClickListener {
 				}
 			}
 		});
+
 	}
 
 	@SuppressWarnings({ "deprecation", "finally" })
@@ -166,32 +151,24 @@ public class ContactsActivity extends Activity implements OnClickListener {
 						Phone.NUMBER }, null, null, null);
 		startManagingCursor(cursor);
 
-		ItemDetails item_details;
 		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
 		String userPhone = telephonyManager.getLine1Number();
+
 		Inet inet = new Inet();
+
+		String notifications = inet.getListOfNotices(userPhone);
+
+		ItemDetails item_details;
 		try {
 			if (cursor.getCount() > 0) {
 				while (cursor.moveToNext()) {
-					if (cursor.getString(2).length() > 9
-							&& !(inet.ifFriend(userPhone, cursor.getString(2)))) {
-
-						String phone;
-						if (cursor.getString(2).length() > 10)
-							phone = editPhoneNumber(cursor.getString(2));
-						else
-							phone = cursor.getString(2);
+					String phone = editPhoneNumber(cursor.getString(2));
+					if (notifications.contains(phone)) {
 						item_details = new ItemDetails();
 						item_details.setName(cursor.getString(0));
 						item_details.setPhoneNumber(phone);
 						item_details.setBitmap(getByteContactPhoto(cursor
 								.getString(1)));
-
-						if (inet.isRegisteredNumber(phone))
-							item_details.setHavingApp(true);
-						else
-							item_details.setHavingApp(false);
-
 						if (!phone_numbers.contains(phone)) {
 							results.add(item_details);
 							phone_numbers.add(phone);
@@ -204,7 +181,6 @@ public class ContactsActivity extends Activity implements OnClickListener {
 			Collections.sort(results, new CompName());
 			return results;
 		}
-
 	}
 
 	private String editPhoneNumber(String number) {
@@ -245,13 +221,6 @@ public class ContactsActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	@SuppressWarnings({ "unused", "deprecation" })
-	private void sendSMS(String phoneNumber, String message) {
-		PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(), 0);
-		SmsManager sms = SmsManager.getDefault();
-		sms.sendTextMessage(phoneNumber, null, message, pi, null);
-	}
-
 	@Override
 	public void onClick(View v) {
 		Intent intent;
@@ -275,5 +244,6 @@ public class ContactsActivity extends Activity implements OnClickListener {
 		default:
 			break;
 		}
+
 	}
 }

@@ -98,7 +98,7 @@
                 android:layout_below="@+id/menu_item_divider_4"
                 android:layout_marginLeft="15dp"
                 android:gravity="center_vertical"
-                android:text="Message">
+                android:text="Notifications">
             </Button>
            
 		   
@@ -151,7 +151,8 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="401dp" />
+        android:layout_height="wrap_content"
+         />
 
     <Button
         android:id="@+id/btnRoute"

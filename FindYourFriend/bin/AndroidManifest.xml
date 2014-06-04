@@ -52,7 +52,7 @@
         </activity>
         <activity android:name="LocationActivity" >
         </activity>
-        <activity android:name="ContActivit"></activity>
+        <activity android:name="NotificationsActivity"></activity>
     </application>
 
 </manifest>

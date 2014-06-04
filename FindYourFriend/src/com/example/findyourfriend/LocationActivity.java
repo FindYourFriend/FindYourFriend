@@ -24,11 +24,6 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-
-
-
-
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -59,38 +54,34 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-
-public class LocationActivity extends FragmentActivity implements OnClickListener,
-		GooglePlayServicesClient.ConnectionCallbacks,
+public class LocationActivity extends FragmentActivity implements
+		OnClickListener, GooglePlayServicesClient.ConnectionCallbacks,
 		GooglePlayServicesClient.OnConnectionFailedListener,
-		com.google.android.gms.location.LocationListener{
+		com.google.android.gms.location.LocationListener {
 
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
-	private DisplayMetrics metrics;	
+	private DisplayMetrics metrics;
 	private ListView listView;
 	private RelativeLayout headerPanel;
 	private RelativeLayout menuPanel;
 	private int panelWidth;
 	private ImageView menuViewButton;
-	Button menu1 ;
-	Button menu2 ;
+	Button menu1;
+	Button menu2;
 	Button menu3;
+	Button menu4;
 	TextView txtpays;
-	
+
 	FrameLayout.LayoutParams menuPanelParameters;
 	FrameLayout.LayoutParams slidingPanelParameters;
-	LinearLayout.LayoutParams headerPanelParameters ;
+	LinearLayout.LayoutParams headerPanelParameters;
 	LinearLayout.LayoutParams listViewParameters;
-	
+
 	ArrayList<String> phone_numbers = new ArrayList<String>();
 
 	ArrayList<ItemDetails> results = new ArrayList<ItemDetails>();
-	
-	
-	
-	
+
 	private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 	// Milliseconds per second
 	private static final int MILLISECONDS_PER_SECOND = 1000;
@@ -107,13 +98,18 @@ public class LocationActivity extends FragmentActivity implements OnClickListene
 
 	GoogleMap mMap;
 	LocationClient mLocationClient;
-	Location mCurrentLocation;
+	static Location mCurrentLocation;
 	LocationRequest mLocationRequest;
 	boolean mUpdatesRequested;
 	SharedPreferences mPrefs;
 	Editor mEditor;
 	Marker marker;
 	Marker destinationMarker;
+
+	public static LatLng getLatLng() {
+		return new LatLng(mCurrentLocation.getLatitude(),
+				mCurrentLocation.getLongitude());
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -140,69 +136,71 @@ public class LocationActivity extends FragmentActivity implements OnClickListene
 		mEditor = mPrefs.edit();
 		// Start with updates turned off
 		mUpdatesRequested = false;
-		
-		
-		//Initialize
-				metrics = new DisplayMetrics();
-				getWindowManager().getDefaultDisplay().getMetrics(metrics);
-				panelWidth = (int) ((metrics.widthPixels)*0.75);
-			
-				headerPanel = (RelativeLayout) findViewById(R.id.header);
-				headerPanelParameters = (LinearLayout.LayoutParams) headerPanel.getLayoutParams();
-				headerPanelParameters.width = metrics.widthPixels;
-				headerPanel.setLayoutParams(headerPanelParameters);
-				
-				menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
-				menuPanelParameters = (FrameLayout.LayoutParams) menuPanel.getLayoutParams();
-				menuPanelParameters.width = panelWidth;
-				menuPanel.setLayoutParams(menuPanelParameters);
-				
-				slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
-				slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
-				slidingPanelParameters.width = metrics.widthPixels;
-				slidingPanel.setLayoutParams(slidingPanelParameters);
-				
-				listView = (ListView) findViewById(R.id.listView1);
-				listViewParameters = (LinearLayout.LayoutParams) listView.getLayoutParams();
-				listViewParameters.width = metrics.widthPixels;
-				listView.setLayoutParams(listViewParameters);
-				
-			
-			
-				//Slide the Panel	
-			 
-			
-			 	menu1 = (Button) findViewById(R.id.menu_item_1);	
-			
-			 	menu2 = (Button) findViewById(R.id.menu_item_2);
-			 	menu1.setOnClickListener(this);
-			 	menu2.setOnClickListener(this);
-			 	menu3=(Button)findViewById(R.id.menu_item_3);
-			 	menu3.setOnClickListener(this);
-			 	
+
+		// Initialize
+		metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		panelWidth = (int) ((metrics.widthPixels) * 0.75);
+
+		headerPanel = (RelativeLayout) findViewById(R.id.header);
+		headerPanelParameters = (LinearLayout.LayoutParams) headerPanel
+				.getLayoutParams();
+		headerPanelParameters.width = metrics.widthPixels;
+		headerPanel.setLayoutParams(headerPanelParameters);
+
+		menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
+		menuPanelParameters = (FrameLayout.LayoutParams) menuPanel
+				.getLayoutParams();
+		menuPanelParameters.width = panelWidth;
+		menuPanel.setLayoutParams(menuPanelParameters);
+
+		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
+		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel
+				.getLayoutParams();
+		slidingPanelParameters.width = metrics.widthPixels;
+		slidingPanel.setLayoutParams(slidingPanelParameters);
+
+		listView = (ListView) findViewById(R.id.listView1);
+		listViewParameters = (LinearLayout.LayoutParams) listView
+				.getLayoutParams();
+		listViewParameters.width = metrics.widthPixels;
+		listView.setLayoutParams(listViewParameters);
+
+		// Slide the Panel
+
+		menu1 = (Button) findViewById(R.id.menu_item_1);
+
+		menu2 = (Button) findViewById(R.id.menu_item_2);
+		menu1.setOnClickListener(this);
+		menu2.setOnClickListener(this);
+		menu3 = (Button) findViewById(R.id.menu_item_3);
+		menu3.setOnClickListener(this);
+		menu4 = (Button) findViewById(R.id.menu_item_4);
+		menu4.setOnClickListener(this);
+
 		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
-				
-				menuViewButton.setOnClickListener(new OnClickListener() {
-				    public void onClick(View v) {
-				    	if(!isExpanded){
-				    		isExpanded = true;   		    				        		
-				        	
-				    		//Expand
-				    		new ExpandAnimation(slidingPanel, panelWidth,
-				    	    Animation.RELATIVE_TO_SELF, 0.0f,
-				    	    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);		    			         	    
-				    	}else{
-				    		isExpanded = false;
-				    		
-				    		//Collapse
-				    		new CollapseAnimation(slidingPanel,panelWidth,
-		            	    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
-		            	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
-				   
-							
-				    	}         	   
-				    }
-				});
+
+		menuViewButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if (!isExpanded) {
+					isExpanded = true;
+
+					// Expand
+					new ExpandAnimation(slidingPanel, panelWidth,
+							Animation.RELATIVE_TO_SELF, 0.0f,
+							Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
+				} else {
+					isExpanded = false;
+
+					// Collapse
+					new CollapseAnimation(slidingPanel, panelWidth,
+							TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
+							TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f,
+							0, 0.0f);
+
+				}
+			}
+		});
 
 	}
 
@@ -242,20 +240,16 @@ public class LocationActivity extends FragmentActivity implements OnClickListene
 		// Report to the UI that the location was updated
 
 		mCurrentLocation = location;
-		String msg = "Updated Location: "
-				+ Double.toString(location.getLatitude()) + ","
-				+ Double.toString(location.getLongitude());
-		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 		if (marker != null)
 			marker.remove();
-//		Bitmap bmp = BitmapFactory.decodeResource(getResources(),
-//				R.drawable.ic_launcher);
-//		marker = mMap.addMarker(new MarkerOptions()
-//				.position(
-//						new LatLng(mCurrentLocation.getLatitude(),
-//								mCurrentLocation.getLongitude()))
-//				.title("Julia Vovk").snippet("I'm here")
-//				.icon(BitmapDescriptorFactory.fromBitmap(bmp)));
+		// Bitmap bmp = BitmapFactory.decodeResource(getResources(),
+		// R.drawable.ic_launcher);
+		// marker = mMap.addMarker(new MarkerOptions()
+		// .position(
+		// new LatLng(mCurrentLocation.getLatitude(),
+		// mCurrentLocation.getLongitude()))
+		// .title("Julia Vovk").snippet("I'm here")
+		// .icon(BitmapDescriptorFactory.fromBitmap(bmp)));
 		mMap.setMyLocationEnabled(true);
 	}
 
@@ -277,11 +271,11 @@ public class LocationActivity extends FragmentActivity implements OnClickListene
 				new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation
 						.getLongitude()), 17));
 		mMap.setMyLocationEnabled(true);
-//		marker = mMap.addMarker(new MarkerOptions()
-//				.position(
-//						new LatLng(mCurrentLocation.getLatitude(),
-//								mCurrentLocation.getLongitude()))
-//				.title("Julia Vovk").snippet("I'm here"));
+		// marker = mMap.addMarker(new MarkerOptions()
+		// .position(
+		// new LatLng(mCurrentLocation.getLatitude(),
+		// mCurrentLocation.getLongitude()))
+		// .title("Julia Vovk").snippet("I'm here"));
 		// mMap.addMarker(new MarkerOptions()
 		// .position(
 		// new LatLng(50.02,
@@ -295,8 +289,9 @@ public class LocationActivity extends FragmentActivity implements OnClickListene
 				// TODO Auto-generated method stub
 				// lstLatLngs.add(point);
 
-				destinationMarker = mMap.addMarker(new MarkerOptions()
-						.position(point));
+				if (destinationMarker != null)
+					destinationMarker = mMap.addMarker(new MarkerOptions()
+							.position(point));
 				// onClickRoute(point);
 
 				// String url = makeURL(mCurrentLocation.getLatitude(),
@@ -317,23 +312,21 @@ public class LocationActivity extends FragmentActivity implements OnClickListene
 					destinationMarker.getPosition().longitude);
 			connectAsyncTask cat = new connectAsyncTask(url);
 			cat.execute();
-		}
-		else {
+		} else {
 			AlertDialog.Builder b = new AlertDialog.Builder(this);
-			 b
-			    .setTitle("Error")
-			    .setMessage("Please, select place to create a route")
-			    .setIcon(android.R.drawable.ic_dialog_alert)
-			    .setPositiveButton("OK", new DialogInterface.OnClickListener() 
-			    {
-			        public void onClick(DialogInterface dialog, int which) 
-			        {       
-			               dialog.dismiss();
-			    }
-			    });             
-			    
-			    AlertDialog alert = b.create();
-			        alert.show();
+			b.setTitle("Error")
+					.setMessage("Please, select place to create a route")
+					.setIcon(android.R.drawable.ic_dialog_alert)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int which) {
+									dialog.dismiss();
+								}
+							});
+
+			AlertDialog alert = b.create();
+			alert.show();
 		}
 	}
 
@@ -445,20 +438,19 @@ public class LocationActivity extends FragmentActivity implements OnClickListene
 
 		} catch (JSONException e) {
 			AlertDialog.Builder b = new AlertDialog.Builder(this);
-			 b
-			    .setTitle("Error")
-			    .setMessage("Fuck off, bitch!")
-			    .setIcon(android.R.drawable.ic_dialog_alert)
-			    .setPositiveButton("OKAY=(", new DialogInterface.OnClickListener() 
-			    {
-			        public void onClick(DialogInterface dialog, int which) 
-			        {       
-			               dialog.dismiss();
-			    }
-			    });             
-			    
-			    AlertDialog alert = b.create();
-			        alert.show();
+			b.setTitle("Error")
+					.setMessage("Fuck off, bitch!")
+					.setIcon(android.R.drawable.ic_dialog_alert)
+					.setPositiveButton("OKAY=(",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int which) {
+									dialog.dismiss();
+								}
+							});
+
+			AlertDialog alert = b.create();
+			alert.show();
 		}
 	}
 
@@ -534,23 +526,26 @@ public class LocationActivity extends FragmentActivity implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		Intent intent;
-		switch(v.getId()){
+		switch (v.getId()) {
 		case R.id.menu_item_1:
-			intent=new Intent(this, ContactsActivity.class);
+			intent = new Intent(this, ContactsActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.menu_item_2:
-			intent = new Intent(this,FriendsActivity.class);
+			intent = new Intent(this, FriendsActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.menu_item_3:
-			intent = new Intent(this,LocationActivity.class);
+			intent = new Intent(this, LocationActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_item_4:
+			intent = new Intent(this, NotificationsActivity.class);
 			startActivity(intent);
 			break;
 		default:
 			break;
 		}
-		
+
 	}
 }
-
