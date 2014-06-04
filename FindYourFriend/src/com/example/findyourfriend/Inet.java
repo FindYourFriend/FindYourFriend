@@ -9,6 +9,13 @@ import org.apache.http.message.BasicNameValuePair;
 import android.util.Log;
 
 public class Inet {	
+	
+	public void register(String number) {
+		List<NameValuePair> NameValuePairs = new ArrayList<NameValuePair>();
+		NameValuePairs.add(new BasicNameValuePair("phonenumber", number));
+		String result = getData("http://www.findyourfriend.ho.ua/register.php", NameValuePairs);
+	}
+	
 	/**
 	 * 
 	 * ���������� ������������������, ���������������� ���� phonenumber ������������ friendphonenumber
